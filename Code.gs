@@ -40,7 +40,9 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
 
     // Honeypot: real guests never fill this in, bots do.
-    if (data.website) return json_({ ok: true });
+    if (data.website) {
+      return json_({ ok: false, message: "We couldn't save that claim. Please try again." });
+    }
 
     const itemId = clean_(data.itemId, 20);
     const item = clean_(data.item, 120);

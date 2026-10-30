@@ -256,7 +256,7 @@
         const guest = {
             name: nameInput.value.trim(),
             email: emailInput.value.trim(),
-            website: form.elements.website.value,
+            website: form.elements.company_website.value,
         };
 
         setBusy(true);
