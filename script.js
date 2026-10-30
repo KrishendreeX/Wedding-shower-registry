@@ -6,9 +6,9 @@
 
     /* ---------------- SETTINGS ---------------- */
     const CONFIG = {
-        // Paste your Google Apps Script web-app URL between the quotes (see SETUP.md).
+        // Paste your Google Apps Script web-app URL between the quotes (see README.md).
         // While this is empty the page runs in preview mode (claims saved on this device only).
-        APPS_SCRIPT_URL: "",
+        APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwDPPA0JvSAYg9aN70w7WMhvCA5ex-n4wMGJ4cMm7naxXSMekCtgAeOfsFM1PZmTlhc6g/exec",
 
     };
 
@@ -52,6 +52,7 @@
     const claimed = new Set();
     const mine = new Set(store.get(KEYS.mine, []));
     let currentId = null;
+    let refreshing = false;
 
     /* ---------------- BUILD THE LIST ---------------- */
     function buildRegistry() {
@@ -160,6 +161,8 @@
     }
 
     async function refresh() {
+        if (refreshing) return;
+        refreshing = true;
         const registry = $("#registry");
         try {
             let ids;
@@ -177,6 +180,7 @@
             updateSummary();
         } finally {
             registry.classList.remove("loading");
+            refreshing = false;
         }
     }
 
@@ -309,4 +313,9 @@
     document.addEventListener("visibilitychange", () => {
         if (!document.hidden && !dlg.open) refresh();
     });
+
+    // Keep already-open pages in sync with claims made on other devices.
+    setInterval(() => {
+        if (!document.hidden && !dlg.open) refresh();
+    }, 15000);
 })();

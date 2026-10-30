@@ -6,7 +6,7 @@
  * - Emails YOU every time a guest claims a gift
  * - Emails the guest a confirmation
  *
- * Full steps are in SETUP.md.
+ * Full steps are in README.md.
  */
 
 // ====== EDIT THESE ======

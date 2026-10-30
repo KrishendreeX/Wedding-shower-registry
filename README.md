@@ -10,7 +10,7 @@ every time someone picks a gift, connect it to a free Google Sheet. It takes abo
 
 1. Go to [sheets.new](https://sheets.new) and name the sheet **Wedding Registry Claims**.
 2. Click **Extensions → Apps Script**.
-3. Delete everything in the editor and paste in the contents of `apps-script/Code.gs`.
+3. Delete everything in the editor and paste in the contents of [`Code.gs`](./Code.gs).
 4. At the top, change `PUT-YOUR-EMAIL-HERE@example.com` to the email address where you want the notifications.
 5. Click the **Save** icon.
 
@@ -38,7 +38,9 @@ every time someone picks a gift, connect it to a free Google Sheet. It takes abo
 
 2. Upload the updated files to your site (e.g. commit and push to GitHub Pages).
 
-The grey "Preview mode" banner disappears once the URL is set.
+The grey "Preview mode" banner disappears once the URL is set. Until then, claims are stored only in each
+guest's own browser and will not sync between devices. With the backend connected, open pages check for new
+claims every 15 seconds (and when a guest returns to the tab).
 
 ## How you'll use it
 
