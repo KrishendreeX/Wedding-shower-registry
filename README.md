@@ -36,7 +36,13 @@ every time someone picks a gift, connect it to a free Google Sheet. It takes abo
    APPS_SCRIPT_URL: "https://script.google.com/macros/s/XXXXXXXX/exec",
    ```
 
-2. Upload the updated files to your site (e.g. commit and push to GitHub Pages).
+2. Upload the updated files to your site (e.g. commit and push to GitHub Pages). The URL in the live
+   `script.js` must match the web-app URL for this Sheet.
+
+Run `authorizeOnce` from the Apps Script project opened through the Sheet. This saves the Sheet ID for
+web-app requests, creates the `Claims` tab, and sends a test email if `OWNER_EMAIL` has been configured.
+Claims are saved before notification emails are attempted, so email configuration problems do not prevent
+the claim from being recorded.
 
 The grey "Preview mode" banner disappears once the URL is set. Until then, claims are stored only in each
 guest's own browser and will not sync between devices. With the backend connected, open pages check for new

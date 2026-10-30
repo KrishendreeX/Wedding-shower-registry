@@ -8,7 +8,7 @@
     const CONFIG = {
         // Paste your Google Apps Script web-app URL between the quotes (see README.md).
         // While this is empty the page runs in preview mode (claims saved on this device only).
-        APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwDPPA0JvSAYg9aN70w7WMhvCA5ex-n4wMGJ4cMm7naxXSMekCtgAeOfsFM1PZmTlhc6g/exec",
+        APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbw4j7h9l72IIVpCr_NTsj887hKe690VvLMqbBENEpAswVet06meNOuKnyenjpm_msIGmQ/exec",
 
     };
 
@@ -53,6 +53,7 @@
     const mine = new Set(store.get(KEYS.mine, []));
     let currentId = null;
     let refreshing = false;
+    let registryReady = false;
 
     /* ---------------- BUILD THE LIST ---------------- */
     function buildRegistry() {
@@ -111,7 +112,7 @@
         li.classList.toggle("claimed", isClaimed);
         btn.classList.toggle("claimed", isClaimed);
         btn.classList.toggle("mine", isMine);
-        btn.disabled = isClaimed;
+        btn.disabled = isClaimed || (!registryReady && !DEMO);
         tag.textContent = isMine ? "Yours" : isClaimed ? "Claimed" : "Choose";
         btn.setAttribute(
             "aria-label",
@@ -157,7 +158,12 @@
             : {};
         const url = method === "GET" ? `${base}${base.includes("?") ? "&" : "?"}t=${Date.now()}` : base;
         const res = await fetch(url, options);
-        return res.json();
+        if (!res.ok) throw new Error(`The registry server returned HTTP ${res.status}.`);
+        try {
+            return await res.json();
+        } catch (err) {
+            throw new Error("The registry server returned an unreadable response.");
+        }
     }
 
     async function refresh() {
@@ -170,9 +176,10 @@
                 ids = store.get(KEYS.demoClaims, []);
             } else {
                 const res = await api("GET");
-                if (!res || !res.ok) throw new Error("Bad response");
+                if (!res || !res.ok || !Array.isArray(res.claimed)) throw new Error("Bad response");
                 ids = res.claimed;
             }
+            registryReady = true;
             applyClaimed(ids);
             $("#sync-note").hidden = true;
         } catch (err) {
@@ -223,7 +230,7 @@
 
     function openClaim(id) {
         const item = itemsById.get(id);
-        if (!item || claimed.has(id)) return;
+        if (!item || claimed.has(id) || (!registryReady && !DEMO)) return;
         currentId = id;
 
         $("#dlg-title").textContent = item.name;
@@ -278,7 +285,7 @@
                 showError((res && res.message) || "Something went wrong. Please try again.");
             }
         } catch (err) {
-            showError("We couldn’t save that. Please check your connection and try again.");
+            showError(err.message || "We couldn’t save that. Please check your connection and try again.");
         } finally {
             setBusy(false);
         }
