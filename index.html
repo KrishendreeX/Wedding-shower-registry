@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melissa &amp; Chad · Pantry Party</title>
+    <meta name="description"
+        content="Choose something from the pantry list to bring to Melissa &amp; Chad’s wedding shower on Saturday 21 November at 14h00.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- ===== Header ===== -->
+        <header class="hero">
+            <div class="monogram" aria-hidden="true"><span>M&amp;C</span></div>
+            <p class="eyebrow">Please join us for the wedding shower of</p>
+            <h1>Melissa <span class="amp">&amp;</span> Chad</h1>
+
+            <svg class="divider" viewBox="0 0 300 24" aria-hidden="true">
+                <line x1="10" y1="12" x2="115" y2="12" />
+                <path d="M125 12 q8-9 18-4 q-8 9-18 4z" />
+                <path
+                    d="M150 19c-6-4.5-8.5-7.5-8.5-10.2a3.9 3.9 0 0 1 8.5-1.6a3.9 3.9 0 0 1 8.5 1.6c0 2.7-2.5 5.7-8.5 10.2z" />
+                <path d="M175 12 q-8-9-18-4 q8 9 18 4z" />
+                <line x1="185" y1="12" x2="290" y2="12" />
+            </svg>
+
+            <p class="party-title">Pantry Party</p>
+            <p class="event-line">Saturday 21 November · 14h00</p>
+            <p class="subtitle">Instead of a gift, please bring a little something from our pantry (food, drinks,
+                snacks, treats, etc.) to help us stock our new chapter. Choose what you’ll bring below.</p>
+        </header>
+
+        <!-- ===== How it works ===== -->
+        <ol class="steps" aria-label="How it works">
+            <li><span class="step-num">1</span><span>Tap an item you’d like to bring</span></li>
+            <li><span class="step-num">2</span><span>Add your name and email</span></li>
+            <li><span class="step-num">3</span><span>It’s scratched off for everyone else</span></li>
+        </ol>
+
+        <p class="notice" id="demo-note" hidden>Preview mode: claims are only saved on this device until the
+            registry is connected (see SETUP.md).</p>
+        <p class="notice warn" id="sync-note" hidden>We couldn’t check what’s already been chosen. Please refresh the
+            page
+            before choosing a gift.</p>
+
+        <!-- ===== Progress ===== -->
+        <section class="progress" aria-live="polite">
+            <p id="progress-text">Loading the registry…</p>
+            <div class="progress-bg" aria-hidden="true">
+                <div id="progress-bar" class="progress-fill"></div>
+            </div>
+        </section>
+
+        <div class="toolbar">
+            <label class="switch">
+                <input type="checkbox" id="only-available">
+                <span class="switch-track" aria-hidden="true"></span>
+                <span>Only show items still available</span>
+            </label>
+        </div>
+
+        <!-- ===== Registry (built by script.js) ===== -->
+        <div id="registry" class="loading"></div>
+        <noscript>
+            <p class="notice warn">Please turn on JavaScript to view and choose items.</p>
+        </noscript>
+
+        <footer>
+            <svg class="divider small" viewBox="0 0 300 24" aria-hidden="true">
+                <line x1="40" y1="12" x2="125" y2="12" />
+                <path
+                    d="M150 19c-6-4.5-8.5-7.5-8.5-10.2a3.9 3.9 0 0 1 8.5-1.6a3.9 3.9 0 0 1 8.5 1.6c0 2.7-2.5 5.7-8.5 10.2z" />
+                <line x1="175" y1="12" x2="260" y2="12" />
+            </svg>
+            <p class="signoff">With all our love,</p>
+            <p class="signoff-names">Melissa &amp; Chad</p>
+        </footer>
+    </main>
+
+    <!-- ===== Claim dialog ===== -->
+    <dialog id="claim-dialog" aria-labelledby="dlg-title">
+        <form id="claim-form" method="dialog" novalidate>
+            <p class="dlg-eyebrow">You’re choosing</p>
+            <h3 id="dlg-title">Gift</h3>
+            <p class="dlg-category" id="dlg-category"></p>
+
+            <label class="field">
+                <span>Your name</span>
+                <input type="text" id="guest-name" name="name" autocomplete="name" required minlength="2"
+                    maxlength="100" placeholder="e.g. Thandi Nkosi">
+            </label>
+
+            <label class="field">
+                <span>Your email</span>
+                <input type="email" id="guest-email" name="email" autocomplete="email" required maxlength="200"
+                    placeholder="you@example.com">
+            </label>
+
+            <!-- Honeypot: real guests never see or fill this in -->
+            <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <p class="dlg-help">Melissa &amp; Chad will get your details so they know who’s bringing what, and we’ll
+                email you a confirmation. Your name is never shown on this page.</p>
+
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+
+            <div class="dlg-actions">
+                <button type="button" class="btn ghost" id="cancel-btn">Cancel</button>
+                <button type="submit" class="btn primary" id="submit-btn">I’ll bring this</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
